@@ -26,6 +26,10 @@ export type Brand = {
   slug: string;
   name: string;
   mark: string;
+  /** Real logo asset (PNG/SVG under /images/brands). null → wordmark fallback. */
+  logo?: string;
+  /** Aspect ratio of the logo (width/height) for correct sizing. */
+  logoAspect?: number;
   tagline: string;
   description: string;
   origin: string;
@@ -266,6 +270,8 @@ export const BRANDS: Brand[] = [
     slug: "jvc",
     name: "JVC",
     mark: "J",
+    logo: "/images/brands/jvc.svg",
+    logoAspect: 311 / 124,
     tagline: "Japanese AV heritage, at Bahrain prices.",
     description:
       "JVC has been engineering display and audio products since 1927. Our Bahrain range focuses on living-room LED and QLED televisions tuned for Gulf broadcast standards.",
@@ -292,6 +298,8 @@ export const BRANDS: Brand[] = [
     slug: "bluestar",
     name: "Blue Star",
     mark: "B",
+    logo: "/images/brands/bluestar.png",
+    logoAspect: 146 / 30,
     tagline: "Engineered for the Gulf heat.",
     description:
       "Blue Star is India's climate engineering company. Their Gulf-tuned inverter ACs hold their cooling at 58°C ambient — rated for real Bahrain summers, not a lab.",
@@ -305,6 +313,8 @@ export const BRANDS: Brand[] = [
     slug: "zojirushi",
     name: "Zojirushi",
     mark: "Z",
+    logo: "/images/brands/zojirushi.svg",
+    logoAspect: 512 / 115,
     tagline: "Small objects, generations of refinement.",
     description:
       "Zojirushi is the Japanese master of thermal drinkware and kitchen appliances. Every product is engineered on a generational timescale.",

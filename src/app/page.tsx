@@ -6,6 +6,7 @@ import { BHD } from "@/lib/format";
 import { CountdownStrip } from "@/components/CountdownStrip";
 import { NewsletterForm } from "@/components/NewsletterForm";
 import { IconTruck, IconReturn, IconShield, IconCard, IconCheck } from "@/components/Icon";
+import { BrandLogo } from "@/components/BrandLogo";
 
 const CATEGORY_TILES = [
   { label: "Televisions", count: 5, href: "/brands/jvc", accent: "#0a0c11", icon: "tv" },
@@ -140,21 +141,18 @@ export default function Home() {
             ctaLabel="View all"
           />
           <div className="mt-8 grid grid-cols-2 md:grid-cols-5 gap-3 md:gap-4">
-            {BRANDS.map((b) => (
+            {BRANDS.map((b, i) => (
               <Link
                 key={b.slug}
                 href={`/brands/${b.slug}`}
-                className="card group relative overflow-hidden p-6 text-center flex flex-col items-center justify-center aspect-square"
+                className="card group relative overflow-hidden p-6 flex flex-col items-center justify-center aspect-square"
                 data-reveal
+                style={{ transitionDelay: `${i * 70}ms` }}
               >
-                <div
-                  className="h-20 w-20 rounded-full grid place-items-center font-display text-4xl font-semibold transition-transform group-hover:scale-105"
-                  style={{ background: `${b.accent}14`, color: b.accent }}
-                >
-                  {b.mark}
+                <div className="flex-1 flex items-center justify-center w-full px-4 transition-transform duration-500 group-hover:scale-[1.06]">
+                  <BrandLogo brand={b} height={40} />
                 </div>
-                <div className="mt-4 font-semibold text-[15px]">{b.name}</div>
-                <div className="text-[11.5px] text-[var(--color-ink-500)] mt-0.5">{b.categoryLabel}</div>
+                <div className="text-[11.5px] text-[var(--color-ink-500)] mt-3 uppercase tracking-wider">{b.categoryLabel}</div>
               </Link>
             ))}
           </div>

@@ -2,6 +2,7 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 import { BRANDS, getBrand, getProductsByBrand, PRODUCTS } from "@/data/brands";
 import { ProductCard } from "@/components/ProductCard";
+import { BrandLogo } from "@/components/BrandLogo";
 
 export function generateStaticParams() {
   return BRANDS.map((b) => ({ slug: b.slug }));
@@ -32,15 +33,11 @@ export default async function BrandPage({ params }: { params: Promise<{ slug: st
           </div>
           <div className="mt-6 grid md:grid-cols-12 gap-8 items-end">
             <div className="md:col-span-8">
-              <div className="flex items-center gap-4">
-                <div className="h-16 w-16 rounded-full grid place-items-center font-display text-3xl font-bold bg-white/10 ring-1 ring-white/20">
-                  {brand.mark}
-                </div>
-                <div>
-                  <h1 className="font-display text-5xl md:text-6xl font-semibold leading-none">{brand.name}</h1>
-                  <div className="text-white/60 text-xs uppercase tracking-wider mt-2">{brand.origin}</div>
-                </div>
+              <div className="bg-white/10 backdrop-blur-sm rounded-xl ring-1 ring-white/15 px-6 py-5 inline-flex items-center">
+                <BrandLogo brand={brand} height={brand.logo ? 44 : 40} variant="light" />
               </div>
+              <h1 className="mt-5 font-display text-5xl md:text-6xl font-semibold leading-none">{brand.name}</h1>
+              <div className="text-white/60 text-xs uppercase tracking-wider mt-3">{brand.origin}</div>
               <p className="mt-5 text-lg italic font-display text-white/85 max-w-xl">{brand.tagline}</p>
             </div>
             <div className="md:col-span-4">

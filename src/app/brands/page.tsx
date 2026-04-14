@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { BRANDS, getProductsByBrand } from "@/data/brands";
+import { BrandLogo } from "@/components/BrandLogo";
 
 export default function BrandsIndex() {
   return (
@@ -25,30 +26,27 @@ export default function BrandsIndex() {
 
       <section className="py-10">
         <div className="container-x grid gap-4 md:grid-cols-2 lg:grid-cols-3">
-          {BRANDS.map((b) => {
+          {BRANDS.map((b, i) => {
             const count = getProductsByBrand(b.slug).length;
             return (
               <Link
                 key={b.slug}
                 href={`/brands/${b.slug}`}
-                className="card group relative overflow-hidden p-7 min-h-[220px] flex flex-col justify-between"
-                style={{ background: `linear-gradient(145deg, ${b.accent}10, #ffffff 65%)` }}
+                className="card group relative overflow-hidden p-7 min-h-[240px] flex flex-col justify-between"
+                style={{ background: `linear-gradient(145deg, ${b.accent}10, #ffffff 65%)`, transitionDelay: `${i * 70}ms` }}
                 data-reveal
               >
                 <div className="absolute -right-6 -bottom-14 font-display leading-none text-[180px] opacity-[0.08] group-hover:opacity-[0.16] transition-opacity" style={{ color: b.accent }}>
                   {b.mark}
                 </div>
                 <div className="relative">
-                  <div className="flex items-center gap-3">
-                    <div className="h-12 w-12 rounded-full grid place-items-center font-display text-2xl font-bold" style={{ background: `${b.accent}15`, color: b.accent }}>
-                      {b.mark}
-                    </div>
-                    <div>
-                      <div className="font-display text-2xl font-semibold">{b.name}</div>
-                      <div className="text-[11px] text-[var(--color-ink-500)] uppercase tracking-wider">{b.categoryLabel}</div>
-                    </div>
+                  <div className="h-12 flex items-center">
+                    <BrandLogo brand={b} height={32} />
                   </div>
-                  <p className="mt-4 text-sm text-[var(--color-ink-600)] leading-relaxed max-w-sm">{b.tagline}</p>
+                  <div className="mt-4">
+                    <div className="text-[11px] text-[var(--color-ink-500)] uppercase tracking-wider">{b.categoryLabel}</div>
+                    <p className="mt-2 text-sm text-[var(--color-ink-600)] leading-relaxed max-w-sm">{b.tagline}</p>
+                  </div>
                 </div>
                 <div className="relative flex items-center justify-between mt-5 pt-4 border-t border-[var(--color-ink-100)]">
                   <span className="text-xs text-[var(--color-ink-500)]">{b.origin}</span>
