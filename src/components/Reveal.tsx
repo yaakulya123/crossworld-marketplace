@@ -9,17 +9,13 @@ export function Reveal() {
     if (typeof window === "undefined") return;
 
     const prefersReduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-    if (prefersReduced) {
+    const showAll = () =>
       document.querySelectorAll<HTMLElement>("[data-reveal]").forEach((el) => el.classList.add("is-visible"));
+
+    if (prefersReduced || !("IntersectionObserver" in window)) {
+      showAll();
       return;
     }
-
-    if (!("IntersectionObserver" in window)) {
-      document.querySelectorAll<HTMLElement>("[data-reveal]").forEach((el) => el.classList.add("is-visible"));
-      return;
-    }
-
-    const els = Array.from(document.querySelectorAll<HTMLElement>("[data-reveal]:not(.is-visible)"));
 
     const obs = new IntersectionObserver(
       (entries) => {
@@ -31,26 +27,26 @@ export function Reveal() {
         }
       },
       {
-        // Fire when the element is actually in view (12% in from the bottom),
-        // so the animation plays as the user scrolls into each section.
+        // Fire when the element is ~12% past the bottom of the viewport,
+        // so the user sees it animate as they scroll toward it.
         threshold: 0.12,
         rootMargin: "0px 0px -12% 0px",
       }
     );
-    els.forEach((el) => obs.observe(el));
 
-    // Safety net for elements that never intersect (e.g. hidden by layout quirks
-    // or under the fold of a very short page). 6s is long enough that normal
-    // scrolling will trigger the animation first.
-    const t = window.setTimeout(() => {
-      document
-        .querySelectorAll<HTMLElement>("[data-reveal]:not(.is-visible)")
-        .forEach((el) => el.classList.add("is-visible"));
-    }, 6000);
+    const observeAll = () => {
+      document.querySelectorAll<HTMLElement>("[data-reveal]:not(.is-visible)").forEach((el) => obs.observe(el));
+    };
+    observeAll();
+
+    // Re-observe on tab visibility restore — handles cases where the browser
+    // threw away the observer (rare, but cheap insurance).
+    const onVisibility = () => { if (!document.hidden) observeAll(); };
+    document.addEventListener("visibilitychange", onVisibility);
 
     return () => {
       obs.disconnect();
-      window.clearTimeout(t);
+      document.removeEventListener("visibilitychange", onVisibility);
     };
   }, [pathname]);
 
