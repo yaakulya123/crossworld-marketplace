@@ -27,18 +27,18 @@ export function AddToCartButton({
   return (
     <button
       onClick={onClick}
-      className={compact ? "btn-accent !px-4 !py-2 text-xs" : "btn-accent"}
+      className={compact ? "btn btn-brand w-full !py-2 text-[12.5px]" : "btn btn-brand"}
       aria-label={`Add ${product.name} to basket`}
     >
       {added ? (
         <>
-          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M5 13l4 4L19 7" /></svg>
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2"><path d="M5 13l4 4L19 7" /></svg>
           <span>Added</span>
         </>
       ) : (
         <>
           <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8"><path d="M6 7h15l-2 11H8L6 4H3" strokeLinecap="round" strokeLinejoin="round"/></svg>
-          <span>{compact ? "Add" : "Add to basket"}</span>
+          <span>Add to basket</span>
         </>
       )}
     </button>

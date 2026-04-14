@@ -26,48 +26,50 @@ export default async function RangePage({
 
   return (
     <>
-      <section
-        className="relative overflow-hidden pt-40 pb-24 text-[var(--color-cream)]"
-        style={{ background: `linear-gradient(160deg, ${rangeObj.accent} 0%, #0a0706 100%)` }}
-      >
-        <div className="absolute inset-0 grid-lines opacity-25" />
-        <div className="container-x relative">
-          <div className="text-xs uppercase tracking-[0.28em] text-[var(--color-cream)]/70 flex items-center gap-3">
-            <Link href="/brands" className="hover:text-[var(--color-gold)]">Brands</Link>
+      <section className="relative overflow-hidden text-white" style={{ background: `linear-gradient(135deg, ${rangeObj.accent} 0%, #0a0c11 110%)` }}>
+        <div className="absolute inset-0 grid-dots opacity-20" />
+        <div className="container-x relative py-10 md:py-14">
+          <div className="text-xs uppercase tracking-wider text-white/70 flex items-center gap-2">
+            <Link href="/" className="hover:text-[var(--color-brand-300)]">Home</Link>
             <span>/</span>
-            <Link href={`/brands/${brand.slug}`} className="hover:text-[var(--color-gold)]">{brand.name}</Link>
+            <Link href="/brands" className="hover:text-[var(--color-brand-300)]">Brands</Link>
             <span>/</span>
-            <span className="text-[var(--color-gold)]">{rangeObj.name}</span>
+            <Link href={`/brands/${brand.slug}`} className="hover:text-[var(--color-brand-300)]">{brand.name}</Link>
+            <span>/</span>
+            <span className="text-white">{rangeObj.name}</span>
           </div>
-
-          <div className="mt-10 grid md:grid-cols-12 gap-10 items-end">
-            <div className="md:col-span-8" data-reveal>
-              <div className="eyebrow text-[var(--color-gold)]"><span className="hairline"/><span>{brand.name} · Range</span></div>
-              <h1 className="mt-6 font-display text-6xl md:text-8xl leading-[0.92] tracking-[-0.02em]">{rangeObj.name}</h1>
-              <p className="mt-6 text-xl md:text-2xl italic font-display text-[var(--color-cream)]/80">{rangeObj.tagline}</p>
+          <div className="mt-6 grid md:grid-cols-12 gap-8 items-end">
+            <div className="md:col-span-7">
+              <div className="text-xs uppercase tracking-wider text-[var(--color-brand-300)] font-semibold">{brand.name} · Range</div>
+              <h1 className="mt-2 font-display text-5xl md:text-6xl font-semibold leading-[1]">{rangeObj.name}</h1>
+              <p className="mt-3 text-xl font-display italic text-white/80">{rangeObj.tagline}</p>
             </div>
-            <div className="md:col-span-4" data-reveal>
-              <div className="rounded-2xl border border-[var(--color-cream)]/15 bg-white/5 p-6 backdrop-blur-sm">
-                <div className="text-[11px] uppercase tracking-[0.22em] text-[var(--color-gold)]">The USP</div>
-                <p className="mt-3 text-sm leading-relaxed text-[var(--color-cream)]/85">{rangeObj.usp}</p>
+            <div className="md:col-span-5">
+              <div className="rounded-xl border border-white/15 bg-white/5 p-5 backdrop-blur-sm">
+                <div className="text-[11px] uppercase tracking-wider text-[var(--color-brand-300)] font-semibold">What makes this range</div>
+                <p className="mt-2.5 text-sm leading-relaxed text-white/85">{rangeObj.usp}</p>
               </div>
             </div>
           </div>
         </div>
       </section>
 
-      <section className="bg-[var(--color-cream)] py-24">
+      <section className="py-10 md:py-12">
         <div className="container-x">
-          <div className="mb-10 flex items-end justify-between" data-reveal>
+          <div className="flex items-end justify-between mb-6 flex-wrap gap-4">
             <div>
-              <div className="eyebrow text-[var(--color-ink-500)]"><span className="hairline"/><span>In the range</span></div>
-              <h2 className="mt-5 font-display text-4xl">{products.length} product{products.length !== 1 && "s"}</h2>
+              <h2 className="font-display text-2xl font-semibold">{products.length} in the range</h2>
+            </div>
+            <div className="flex items-center gap-2">
+              <select className="chip !bg-white !cursor-pointer">
+                <option>Sort: Featured</option>
+                <option>Price: Low → High</option>
+                <option>Price: High → Low</option>
+              </select>
             </div>
           </div>
-          <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
-            {products.map((p) => (
-              <ProductCard key={p.slug} product={p} brandMark={brand.mark} />
-            ))}
+          <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3 md:gap-4">
+            {products.map((p) => <ProductCard key={p.slug} product={p} />)}
           </div>
         </div>
       </section>

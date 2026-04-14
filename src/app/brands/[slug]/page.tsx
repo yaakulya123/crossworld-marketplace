@@ -14,69 +14,71 @@ export default async function BrandPage({ params }: { params: Promise<{ slug: st
 
   const products = getProductsByBrand(slug);
   const hasRanges = (brand.ranges?.length ?? 0) > 0;
+  const categories = Array.from(new Set(products.map((p) => p.category)));
 
   return (
     <>
-      {/* Brand hero */}
-      <section
-        className="relative overflow-hidden pt-40 pb-28 text-[var(--color-cream)]"
-        style={{ background: `linear-gradient(160deg, ${brand.accent} 0%, #0a0706 100%)` }}
-      >
-        <div className="absolute inset-0 grid-lines opacity-30" />
-        <div className="absolute -right-20 -top-20 font-display opacity-10 text-[440px] leading-none" style={{ color: "#fff" }}>
-          {brand.mark}
-        </div>
-        <div className="container-x relative">
-          <div className="text-xs uppercase tracking-[0.28em] text-[var(--color-cream)]/70 flex items-center gap-3">
-            <Link href="/brands" className="hover:text-[var(--color-gold)]">Brands</Link>
+      {/* Brand banner */}
+      <section className="relative overflow-hidden text-white" style={{ background: `linear-gradient(135deg, ${brand.accent} 0%, #0a0c11 110%)` }}>
+        <div className="absolute inset-0 grid-dots opacity-25" />
+        <div className="absolute -right-20 -top-10 font-display opacity-[0.08] text-[420px] leading-none">{brand.mark}</div>
+        <div className="container-x relative py-10 md:py-14">
+          <div className="text-xs uppercase tracking-wider text-white/70 flex items-center gap-2">
+            <Link href="/" className="hover:text-[var(--color-brand-300)]">Home</Link>
             <span>/</span>
-            <span className="text-[var(--color-gold)]">{brand.name}</span>
+            <Link href="/brands" className="hover:text-[var(--color-brand-300)]">Brands</Link>
+            <span>/</span>
+            <span className="text-white">{brand.name}</span>
           </div>
-          <div className="mt-8 grid md:grid-cols-12 gap-10 items-end">
-            <div className="md:col-span-8" data-reveal>
-              <div className="eyebrow text-[var(--color-gold)]"><span className="hairline"/><span>{brand.categoryLabel}</span></div>
-              <h1 className="mt-6 font-display text-6xl md:text-8xl leading-[0.92] tracking-[-0.02em]">{brand.name}</h1>
-              <p className="mt-6 text-xl md:text-2xl italic text-[var(--color-cream)]/80 font-display">{brand.tagline}</p>
+          <div className="mt-6 grid md:grid-cols-12 gap-8 items-end">
+            <div className="md:col-span-8">
+              <div className="flex items-center gap-4">
+                <div className="h-16 w-16 rounded-full grid place-items-center font-display text-3xl font-bold bg-white/10 ring-1 ring-white/20">
+                  {brand.mark}
+                </div>
+                <div>
+                  <h1 className="font-display text-5xl md:text-6xl font-semibold leading-none">{brand.name}</h1>
+                  <div className="text-white/60 text-xs uppercase tracking-wider mt-2">{brand.origin}</div>
+                </div>
+              </div>
+              <p className="mt-5 text-lg italic font-display text-white/85 max-w-xl">{brand.tagline}</p>
             </div>
-            <div className="md:col-span-4" data-reveal>
-              <p className="text-[var(--color-cream)]/75 leading-relaxed">{brand.description}</p>
-              <div className="mt-5 text-xs uppercase tracking-[0.24em] text-[var(--color-cream)]/50">{brand.origin}</div>
+            <div className="md:col-span-4">
+              <p className="text-white/70 leading-relaxed text-[14.5px]">{brand.description}</p>
+              <div className="mt-4 flex flex-wrap gap-2">
+                {categories.map((c) => (
+                  <span key={c} className="text-[11px] bg-white/10 border border-white/15 rounded-md px-2.5 py-1">{c}</span>
+                ))}
+              </div>
             </div>
           </div>
         </div>
       </section>
 
-      {/* Ranges (if any) */}
+      {/* Ranges strip */}
       {hasRanges && (
-        <section className="bg-[var(--color-cream)] py-24">
+        <section className="py-10 bg-[var(--color-ink-50)]">
           <div className="container-x">
-            <div className="mb-12" data-reveal>
-              <div className="eyebrow text-[var(--color-ink-500)]"><span className="hairline"/><span>Collections</span></div>
-              <h2 className="mt-5 font-display text-4xl md:text-5xl">{brand.name} ranges</h2>
-            </div>
-            <div className="grid md:grid-cols-2 gap-6">
+            <div className="eyebrow"><span className="hairline"/>Collections</div>
+            <h2 className="mt-2 font-display text-2xl md:text-3xl font-semibold">{brand.name} ranges</h2>
+            <div className="mt-6 grid md:grid-cols-2 gap-4">
               {brand.ranges!.map((r) => {
                 const rCount = PRODUCTS.filter((p) => p.brandSlug === brand.slug && p.rangeSlug === r.slug).length;
                 return (
                   <Link
                     key={r.slug}
                     href={`/brands/${brand.slug}/${r.slug}`}
-                    className="group relative overflow-hidden rounded-3xl border border-[var(--color-ink-900)]/8 p-10 min-h-[260px]"
-                    style={{ background: `linear-gradient(140deg, ${r.accent}15, transparent 80%)` }}
-                    data-reveal
+                    className="card group relative overflow-hidden p-6 flex items-center gap-5 min-h-[140px]"
                   >
-                    <div className="absolute inset-0 grid-dots opacity-60"/>
-                    <div className="relative">
-                      <div className="eyebrow text-[var(--color-ox-500)]"><span className="hairline"/><span>Range</span></div>
-                      <h3 className="mt-4 font-display text-3xl md:text-4xl text-[var(--color-ink-900)]">{r.name}</h3>
-                      <p className="mt-3 text-[var(--color-ink-500)] italic font-display">{r.tagline}</p>
-                      <p className="mt-4 text-sm text-[var(--color-ink-500)] leading-relaxed max-w-md">{r.usp}</p>
-                      <div className="mt-8 flex items-center justify-between text-xs">
-                        <span className="uppercase tracking-[0.22em] text-[var(--color-ink-500)]">{rCount} products</span>
-                        <span className="flex items-center gap-2 text-[var(--color-ink-900)] group-hover:text-[var(--color-ox-500)]">
-                          Explore the range
-                          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8"><path d="M5 12h14M13 5l7 7-7 7"/></svg>
-                        </span>
+                    <div className="h-20 w-20 rounded-xl grid place-items-center font-display text-xl font-semibold shrink-0" style={{ background: `${r.accent}15`, color: r.accent }}>
+                      {r.name.split(" ").map((w) => w[0]).join("").slice(0,2)}
+                    </div>
+                    <div className="flex-1">
+                      <div className="font-display text-xl font-semibold">{r.name}</div>
+                      <div className="text-[12px] text-[var(--color-ink-500)] italic">{r.tagline}</div>
+                      <div className="mt-2 text-xs text-[var(--color-ink-500)] flex items-center gap-1.5">
+                        {rCount} products
+                        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" className="group-hover:translate-x-1 transition-transform"><path d="M5 12h14M13 5l7 7-7 7"/></svg>
                       </div>
                     </div>
                   </Link>
@@ -87,20 +89,32 @@ export default async function BrandPage({ params }: { params: Promise<{ slug: st
         </section>
       )}
 
-      {/* All products */}
-      <section className="bg-[var(--color-cream)] pb-28">
+      {/* Products */}
+      <section className="py-10 md:py-12">
         <div className="container-x">
-          <div className="mb-10 flex items-end justify-between" data-reveal>
+          <div className="flex items-end justify-between mb-6 flex-wrap gap-4">
             <div>
-              <div className="eyebrow text-[var(--color-ink-500)]"><span className="hairline"/><span>{hasRanges ? "All products" : "Products"}</span></div>
-              <h2 className="mt-5 font-display text-4xl md:text-5xl">{brand.name} catalog</h2>
+              <h2 className="font-display text-2xl md:text-3xl font-semibold">{hasRanges ? "All products" : "Products"}</h2>
+              <div className="text-sm text-[var(--color-ink-500)] mt-1">{products.length} items in {brand.name}</div>
             </div>
-            <div className="text-sm text-[var(--color-ink-500)]">{products.length} products</div>
+            <div className="flex items-center gap-2">
+              <select className="chip !bg-white !cursor-pointer">
+                <option>Sort: Featured</option>
+                <option>Price: Low → High</option>
+                <option>Price: High → Low</option>
+                <option>Newest</option>
+              </select>
+              <select className="chip !bg-white !cursor-pointer">
+                <option>Any price</option>
+                <option>Under BHD 25</option>
+                <option>BHD 25–100</option>
+                <option>BHD 100+</option>
+              </select>
+            </div>
           </div>
-          <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
-            {products.map((p) => (
-              <ProductCard key={p.slug} product={p} brandMark={brand.mark} />
-            ))}
+
+          <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3 md:gap-4">
+            {products.map((p) => <ProductCard key={p.slug} product={p} />)}
           </div>
         </div>
       </section>

@@ -3,47 +3,65 @@ import { BRANDS, getProductsByBrand } from "@/data/brands";
 
 export default function BrandsIndex() {
   return (
-    <section className="bg-[var(--color-cream)] pt-40 pb-28">
-      <div className="container-x">
-        <div className="max-w-2xl mb-14" data-reveal>
-          <div className="eyebrow text-[var(--color-ink-500)]"><span className="hairline"/><span>All brands</span></div>
-          <h1 className="mt-6 font-display text-5xl md:text-7xl leading-[0.98]">
-            Five houses.<br /><span className="italic text-[var(--color-ox-500)]">All in one place</span>.
-          </h1>
+    <>
+      <section className="bg-[var(--color-ink-50)] py-10">
+        <div className="container-x">
+          <div className="text-xs uppercase tracking-wider text-[var(--color-ink-500)] flex items-center gap-2">
+            <Link href="/" className="hover:text-[var(--color-brand-500)]">Home</Link>
+            <span>/</span>
+            <span className="text-[var(--color-ink-900)]">All Brands</span>
+          </div>
+          <div className="mt-4 flex items-end justify-between flex-wrap gap-4">
+            <div>
+              <h1 className="font-display text-4xl md:text-5xl font-semibold">All brands</h1>
+              <p className="mt-2 text-[var(--color-ink-500)] max-w-xl">
+                Five in-house brands. Direct-sourced. No third-party mark-ups.
+              </p>
+            </div>
+            <div className="text-sm text-[var(--color-ink-500)]">{BRANDS.length} brands · {BRANDS.reduce((a, b) => a + getProductsByBrand(b.slug).length, 0)} products</div>
+          </div>
         </div>
+      </section>
 
-        <div className="grid gap-6 md:grid-cols-2">
+      <section className="py-10">
+        <div className="container-x grid gap-4 md:grid-cols-2 lg:grid-cols-3">
           {BRANDS.map((b) => {
             const count = getProductsByBrand(b.slug).length;
             return (
               <Link
                 key={b.slug}
                 href={`/brands/${b.slug}`}
-                className="group relative overflow-hidden rounded-3xl border border-[var(--color-ink-900)]/8 p-10 md:p-12 min-h-[280px]"
-                style={{ background: `linear-gradient(140deg, ${b.accent}20 0%, ${b.accent}05 100%)` }}
+                className="card group relative overflow-hidden p-7 min-h-[220px] flex flex-col justify-between"
+                style={{ background: `linear-gradient(145deg, ${b.accent}10, #ffffff 65%)` }}
                 data-reveal
               >
-                <div className="absolute inset-0 grid-dots opacity-60" />
-                <div className="absolute -right-10 -bottom-20 font-display opacity-10 group-hover:opacity-25 transition-opacity duration-700 text-[260px] leading-none" style={{ color: b.accent }}>
+                <div className="absolute -right-6 -bottom-14 font-display leading-none text-[180px] opacity-[0.08] group-hover:opacity-[0.16] transition-opacity" style={{ color: b.accent }}>
                   {b.mark}
                 </div>
                 <div className="relative">
-                  <div className="eyebrow" style={{ color: b.accent }}><span className="hairline"/><span>{b.categoryLabel}</span></div>
-                  <h2 className="mt-5 font-display text-5xl">{b.name}</h2>
-                  <p className="mt-3 text-[var(--color-ink-500)] max-w-md leading-relaxed">{b.tagline}</p>
-                  <div className="mt-10 flex items-center justify-between text-xs">
-                    <span className="uppercase tracking-[0.22em] text-[var(--color-ink-500)]">{b.origin}</span>
-                    <span className="flex items-center gap-2 text-[var(--color-ink-900)] group-hover:text-[var(--color-ox-500)] transition">
-                      {count} product{count !== 1 && "s"}
-                      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8"><path d="M5 12h14M13 5l7 7-7 7"/></svg>
-                    </span>
+                  <div className="flex items-center gap-3">
+                    <div className="h-12 w-12 rounded-full grid place-items-center font-display text-2xl font-bold" style={{ background: `${b.accent}15`, color: b.accent }}>
+                      {b.mark}
+                    </div>
+                    <div>
+                      <div className="font-display text-2xl font-semibold">{b.name}</div>
+                      <div className="text-[11px] text-[var(--color-ink-500)] uppercase tracking-wider">{b.categoryLabel}</div>
+                    </div>
                   </div>
+                  <p className="mt-4 text-sm text-[var(--color-ink-600)] leading-relaxed max-w-sm">{b.tagline}</p>
+                </div>
+                <div className="relative flex items-center justify-between mt-5 pt-4 border-t border-[var(--color-ink-100)]">
+                  <span className="text-xs text-[var(--color-ink-500)]">{b.origin}</span>
+                  <span className="flex items-center gap-1.5 text-sm font-semibold text-[var(--color-brand-600)] group-hover:gap-2.5 transition-all">
+                    {count} products
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M5 12h14M13 5l7 7-7 7"/></svg>
+                  </span>
                 </div>
               </Link>
             );
           })}
         </div>
-      </div>
-    </section>
+      </section>
+    </>
   );
 }
